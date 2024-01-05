@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  sqldata:
+    container_name: db-server
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+    volumes:
+      - order-sqldata:/var/opt/mssql
+    networks:
+      - vertical-slice 
+
+  redisdata:
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - order-redisdata:/data
+    networks:
+      - vertical-slice 
+
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: "rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - vertical-slice
+
+  order.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - vertical-slice
+
+volumes:
+  order-sqldata:
+    external: false
+  order-redisdata:
+    external: false 
+
+networks:
+  vertical-slice:
+    driver: bridge
