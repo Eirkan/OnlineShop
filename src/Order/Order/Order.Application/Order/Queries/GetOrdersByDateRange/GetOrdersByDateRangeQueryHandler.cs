@@ -63,9 +63,8 @@ public class GetOrdersByDateRangeHandler : IQueryHandler<GetOrdersByDateRangeQue
         await Task.CompletedTask;
 
         var response = _orderRepository.GetOrdersByDate(request.startDate, request.endDate);
-        //var result = _mapper.Map<GetOrdersByDateRangeResponse>(response);
+        var result = _mapper.Map<GetOrdersByDateRangeResponse>(response);
 
-        //return result;
-        return new GetOrdersByDateRangeResponse(1, DateTime.Now);
+        return result;
     }
 }
