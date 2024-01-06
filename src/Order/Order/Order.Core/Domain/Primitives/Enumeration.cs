@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Order.Core.Domain.Primitives
@@ -45,6 +46,7 @@ namespace Order.Core.Domain.Primitives
         /// <summary>
         /// Gets the value.
         /// </summary>
+        [Key]
         public int Value { get; private set; }
 
         /// <summary>

@@ -1,28 +1,23 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Order.Application.Common.Abstractions;
-using Order.Application.Common.Abstractions.Authentication;
 using Order.Core.Common.Dependency;
 using Order.Core.Domain.Messaging.Events;
 using Order.Core.EventBusRabbitMQ;
 using Order.Core.EventBusRabbitMQ.Settings;
 using Order.Core.IntegrationEventLogEF;
 using Order.Core.IntegrationEventLogEF.Services;
-using Order.Infrastructure.Authentication;
 using Order.Infrastructure.Persistence;
 using Order.Infrastructure.Persistence.IntegrationEvents;
 using Order.Infrastructure.Persistence.Settings;
 using RabbitMQ.Client;
 using System.Data.Common;
 using System.Reflection;
-using System.Text;
 
 namespace Order.Infrastructure
 {
@@ -35,7 +30,6 @@ namespace Order.Infrastructure
             services.Configure<ConnectionStringSettings>(configuration.GetSection(ConnectionStringSettings.SettingsKey));
 
             services
-                .AddAuth(configuration)
                 .AddDatabase(configuration)
                 .AddEventBus(configuration);
 
@@ -167,31 +161,6 @@ namespace Order.Infrastructure
 
                 return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, mediator, subscriptionClientName, retryCount);
             });
-
-            return services;
-        }
-
-        private static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
-        {
-            var jwtSettings = new JwtSettings();
-            configuration.Bind(nameof(JwtSettings), jwtSettings);
-            services.AddSingleton(Options.Create(jwtSettings));
-            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-
-            var defaultClockSkew = TimeSpan.FromSeconds(5);
-
-            services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ClockSkew = defaultClockSkew,
-                    ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
-                });
 
             return services;
         }

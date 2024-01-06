@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Order.Contracts.ApiRoutes;
-using Order.Contracts.Authentication.Login;
-using Order.Contracts.Authentication.Register;
 using Shouldly;
 using System.Net;
 using System.Net.Http.Headers;
@@ -62,59 +60,59 @@ namespace Order.Tests.WebApi.Tests
         }
 
 
-        [Theory, TestPriority(1)]
-        [InlineData("erkan", "uygun", "euygun@gmail.com", "password")]
-        public async Task Register_user_test(string firstName, string lastName, string email, string password)
-        {
-            // Arrange
-            await using var application = new WebApplicationFactory<Startup>();
-            using var client = application.CreateClient();
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
+        //[Theory, TestPriority(1)]
+        //[InlineData("erkan", "uygun", "euygun@gmail.com", "password")]
+        //public async Task Register_user_test(string firstName, string lastName, string email, string password)
+        //{
+        //    // Arrange
+        //    await using var application = new WebApplicationFactory<Startup>();
+        //    using var client = application.CreateClient();
+        //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
 
-            RegisterRequest request = new RegisterRequest(firstName, lastName, email, password);
+        //    GetOrdersRequest request = new GetOrdersRequest(firstName, lastName, email, password);
 
-            // Act
-            var response = await client.PostAsync(ApiRoutes.Authentication.Register, GetHttpContentForJson(request));
+        //    // Act
+        //    var response = await client.PostAsync(ApiRoutes.Authentication.Register, GetHttpContentForJson(request));
 
-            // Assert
-            response.StatusCode.ShouldBe(HttpStatusCode.OK);
-        }
-
-
-        [Theory, TestPriority(2)]
-        [InlineData("erkan", "uygun", "erkan@gmail.com", "password")]
-        public async Task Register_and_login_user_test(string firstName, string lastName, string email, string password)
-        {
-            // Arrange
-            await Task.CompletedTask;
-            var client = _factory.CreateClient();
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-
-            var request = new RegisterRequest(firstName, lastName, email, password);
-            var loginRequest = new LoginRequest(email, password);
-
-            // Act
-            var responseRegister =
-                Should.CompleteIn(async () =>
-                {
-                    return await client.PostAsync(ApiRoutes.Authentication.Register, GetHttpContentForJson(request));
-                }, TimeSpan.FromSeconds(5));
-            var resultRegister = Deserialize<RegisterResponse>(responseRegister);
-
-            var responseLogin =
-                Should.CompleteIn(async () =>
-                {
-                    return await client.PostAsync(ApiRoutes.Authentication.Login, GetHttpContentForJson(loginRequest));
-                }, TimeSpan.FromSeconds(5));
-            var resultlogin = Deserialize<LoginResponse>(responseLogin);
+        //    // Assert
+        //    response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        //}
 
 
-            // Assert
-            responseRegister.StatusCode.ShouldBe(HttpStatusCode.OK);
-            responseLogin.StatusCode.ShouldBe(HttpStatusCode.OK);
+        //[Theory, TestPriority(2)]
+        //[InlineData("erkan", "uygun", "erkan@gmail.com", "password")]
+        //public async Task Register_and_login_user_test(string firstName, string lastName, string email, string password)
+        //{
+        //    // Arrange
+        //    await Task.CompletedTask;
+        //    var client = _factory.CreateClient();
+        //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
 
-            resultRegister.Token.ShouldNotBeNull();
-            resultlogin.Token.ShouldNotBeNull();
-        }
+        //    var request = new GetOrdersRequest(firstName, lastName, email, password);
+        //    var loginRequest = new LoginRequest(email, password);
+
+        //    // Act
+        //    var responseRegister =
+        //        Should.CompleteIn(async () =>
+        //        {
+        //            return await client.PostAsync(ApiRoutes.Authentication.Register, GetHttpContentForJson(request));
+        //        }, TimeSpan.FromSeconds(5));
+        //    var resultRegister = Deserialize<GetOrdersResponse>(responseRegister);
+
+        //    var responseLogin =
+        //        Should.CompleteIn(async () =>
+        //        {
+        //            return await client.PostAsync(ApiRoutes.Authentication.Login, GetHttpContentForJson(loginRequest));
+        //        }, TimeSpan.FromSeconds(5));
+        //    var resultlogin = Deserialize<LoginResponse>(responseLogin);
+
+
+        //    // Assert
+        //    responseRegister.StatusCode.ShouldBe(HttpStatusCode.OK);
+        //    responseLogin.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+        //    resultRegister.Token.ShouldNotBeNull();
+        //    resultlogin.Token.ShouldNotBeNull();
+        //}
     }
 }

@@ -24,7 +24,7 @@ namespace Order.Domain.ValueObjects
             Value = string.Empty;
         }
 
-        public override IEnumerable<object> GetEqualityComponents()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             return this.GetComponents<FirstName>();
         }

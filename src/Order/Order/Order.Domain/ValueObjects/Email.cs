@@ -12,7 +12,7 @@ namespace Order.Domain.ValueObjects
     public sealed class Email : ValueObject
     {
 
-        public override IEnumerable<object> GetEqualityComponents()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             //yield return Value;
 

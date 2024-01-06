@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Order.Domain.Entities.Users;
+using Order.Domain.Entities.OrderAggregate;
+using Order.Infrastructure.Persistence.EntityConfigurations;
+using OrderAgg = Order.Domain.Entities.OrderAggregate.Order;
 
 namespace Order.Infrastructure.Persistence
 {
@@ -8,7 +10,10 @@ namespace Order.Infrastructure.Persistence
         private readonly string _defaultSchemaName = string.Empty;
 
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<OrderAgg> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
 
         public new DbSet<TEntity> Set<TEntity>()
@@ -63,10 +68,15 @@ namespace Order.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            //if (!string.IsNullOrWhiteSpace(_defaultSchemaName))
-            //{
-            //    modelBuilder.HasDefaultSchema(_defaultSchemaName);
-            //}
+            if (!string.IsNullOrWhiteSpace(_defaultSchemaName))
+            {
+                modelBuilder.HasDefaultSchema(_defaultSchemaName);
+            }
+
+            modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderItemEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderStatusEntityTypeConfiguration());
+
         }
 
     }
