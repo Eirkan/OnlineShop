@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Order.Domain.Entities.OrderAggregate;
 using Order.Infrastructure.Persistence.EntityConfigurations;
 using OrderAgg = Order.Domain.Entities.OrderAggregate.Order;
@@ -23,6 +25,21 @@ namespace Order.Infrastructure.Persistence
         public OrderDbContext(DbContextOptions<OrderDbContext> options)
             : base(options)
         {
+            var dbCreater = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
+            if (dbCreater != null)
+            {
+                // Create Database 
+                if (!dbCreater.CanConnect())
+                {
+                    dbCreater.Create();
+                }
+
+                // Create Tables
+                if (!dbCreater.HasTables())
+                {
+                    dbCreater.CreateTables();
+                }
+            }
         }
 
 
@@ -76,6 +93,15 @@ namespace Order.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OrderItemEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OrderStatusEntityTypeConfiguration());
+
+            modelBuilder.Entity<OrderStatus>().HasData(
+                new OrderStatus(1, "Submitted"),
+                new OrderStatus(2, "AwaitingValidation"),
+                new OrderStatus(3, "StockConfirmed"),
+                new OrderStatus(4, "Paid"),
+                new OrderStatus(5, "Shipped"),
+                new OrderStatus(6, "Cancelled")
+            );
 
         }
 
