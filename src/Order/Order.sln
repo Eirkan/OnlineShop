@@ -3,29 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Api", "Order\Order.Api\Order.Api.csproj", "{E014605C-9342-48BE-81AF-5E2F23A4F075}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Api", "Order\Order.Api\Order.Api.csproj", "{E014605C-9342-48BE-81AF-5E2F23A4F075}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Application", "Order\Order.Application\Order.Application.csproj", "{095FDC09-2BDC-47EB-A08D-C016D2A1D177}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Application", "Order\Order.Application\Order.Application.csproj", "{095FDC09-2BDC-47EB-A08D-C016D2A1D177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Contracts", "Order\Order.Contracts\Order.Contracts.csproj", "{FD6AB30B-8C01-4E52-856A-8ED959147C18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Contracts", "Order\Order.Contracts\Order.Contracts.csproj", "{FD6AB30B-8C01-4E52-856A-8ED959147C18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Core", "Order\Order.Core\Order.Core.csproj", "{119F40A3-DF27-450C-8D04-F646AD8776AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Core", "Order\Order.Core\Order.Core.csproj", "{119F40A3-DF27-450C-8D04-F646AD8776AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Core.EventBusRabbitMQ", "Order\Order.Core.EventBusRabbitMQ\Order.Core.EventBusRabbitMQ.csproj", "{2E2B09C0-74D7-49B1-BB23-51A9CB7A388D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Core.EventBusRabbitMQ", "Order\Order.Core.EventBusRabbitMQ\Order.Core.EventBusRabbitMQ.csproj", "{2E2B09C0-74D7-49B1-BB23-51A9CB7A388D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Core.IntegrationEventLogEF", "Order\Order.Core.IntegrationEventLogEF\Order.Core.IntegrationEventLogEF.csproj", "{02FB9D4B-9931-4E00-9F85-6CA5F6A43FBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Core.IntegrationEventLogEF", "Order\Order.Core.IntegrationEventLogEF\Order.Core.IntegrationEventLogEF.csproj", "{02FB9D4B-9931-4E00-9F85-6CA5F6A43FBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Domain", "Order\Order.Domain\Order.Domain.csproj", "{F49B10EF-962E-4C0F-A5EC-B3789B426D2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Domain", "Order\Order.Domain\Order.Domain.csproj", "{F49B10EF-962E-4C0F-A5EC-B3789B426D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Infrastructure", "Order\Order.Infrastructure\Order.Infrastructure.csproj", "{9B515F00-562C-4C04-B9E3-45D3B7DB1F2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Infrastructure", "Order\Order.Infrastructure\Order.Infrastructure.csproj", "{9B515F00-562C-4C04-B9E3-45D3B7DB1F2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Tests", "Order\Order.Tests\Order.Tests.csproj", "{1646B966-E7CF-400A-9F91-BD72CD1E8081}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Tests", "Order\Order.Tests\Order.Tests.csproj", "{1646B966-E7CF-400A-9F91-BD72CD1E8081}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Core", "01-Core", "{2E0AA23F-5886-44DD-B94E-A70B240C826F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Test", "03-Test", "{8617B540-1C5E-42C2-96F8-6ACF00F69CBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Application", "02-Application", "{CF9184AC-88C0-4165-B01A-E935A55C5425}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{207D878F-1BFD-4DFD-9F35-CF3D20445D61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{1646B966-E7CF-400A-9F91-BD72CD1E8081}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1646B966-E7CF-400A-9F91-BD72CD1E8081}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1646B966-E7CF-400A-9F91-BD72CD1E8081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{207D878F-1BFD-4DFD-9F35-CF3D20445D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{207D878F-1BFD-4DFD-9F35-CF3D20445D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{207D878F-1BFD-4DFD-9F35-CF3D20445D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{207D878F-1BFD-4DFD-9F35-CF3D20445D61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

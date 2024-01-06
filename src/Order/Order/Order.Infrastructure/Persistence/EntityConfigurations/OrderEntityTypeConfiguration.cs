@@ -31,9 +31,9 @@ class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order.Domain.Entit
             .Property(o => o.OrderDate)
             .HasColumnName("OrderDate");
 
-        //orderConfiguration
-        //    .Property("_orderStatusId")
-        //    .HasColumnName("OrderStatusId");
+        orderConfiguration
+            .Property("_orderStatusId")
+            .HasColumnName("OrderStatusId");
 
         orderConfiguration
             .Property("_paymentMethodId")
@@ -50,8 +50,8 @@ class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order.Domain.Entit
         //    .WithMany()
         //    .HasForeignKey("_buyerId");
 
-        //orderConfiguration.HasOne(o => o.OrderStatus)
-        //    .WithMany()
-        //    .HasForeignKey("_orderStatusId");
+        orderConfiguration.HasOne(o => o.OrderStatus)
+            .WithMany()
+            .HasForeignKey("_orderStatusId");
     }
 }

@@ -11,11 +11,8 @@ class OrderStatusEntityTypeConfiguration
     {
         orderStatusConfiguration.ToTable("orderstatus");
 
-        orderStatusConfiguration
-            .Property("Value")
-            .HasColumnName("Id")
-            .ValueGeneratedNever()
-            ;
+        orderStatusConfiguration.Property(o => o.Value)
+            .ValueGeneratedNever();
 
         orderStatusConfiguration.Property(o => o.Name)
             .HasMaxLength(200);
