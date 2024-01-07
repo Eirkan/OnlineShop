@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+
+  sqldata:
+    container_name: db-server-product
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5435:1433"
+    volumes:
+      - productapi-sqldata:/var/opt/mssql
+    networks:
+      - product-api 
+
+  redisdata:
+    container_name: redis-product
+    ports:
+      - "6381:6379"
+    volumes:
+      - productapi-redisdata:/data
+    networks:
+      - product-api 
+
+  rabbitmq:
+    container_name: rabbitmq-product
+    hostname: "rabbitmq"
+    ports:
+      - "5674:5672"
+      - "15674:15672"
+    networks:
+      - product-api
+
+
+  product.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "8080"
+      - "8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+volumes:
+  productapi-sqldata:
+    external: false
+  productapi-redisdata:
+    external: false 
+
+networks:
+  product-api:
+    driver: bridge
