@@ -2,15 +2,15 @@
 
 namespace Customer.Contracts.Customer.IntegrationEvents
 {
-    public record UserCreatedIntegrationEvent : IntegrationEvent
+    public record CustomerCreatedIntegrationEvent : IntegrationEvent
     {
 
         /// <summary>
         /// Gets the user identifier.
         /// </summary>
-        public Guid UserId { get; }
+        public Guid CustomerId { get; }
 
-        public UserCreatedIntegrationEvent(Guid userId) => UserId = userId;
+        public CustomerCreatedIntegrationEvent(Guid CustomerId) => this.CustomerId = CustomerId;
 
     }
 }

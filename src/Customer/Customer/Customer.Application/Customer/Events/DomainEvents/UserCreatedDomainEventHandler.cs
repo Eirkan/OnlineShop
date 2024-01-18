@@ -23,7 +23,7 @@ namespace Customer.Application.Customer.Events.DomainEvents
         {
             await Task.CompletedTask;
 
-            var integrationEvent = new UserCreatedIntegrationEvent(notification.UserId);
+            var integrationEvent = new CustomerCreatedIntegrationEvent(notification.UserId);
             await _eventService.AddAndSaveEventAsync(integrationEvent);
         }
     }

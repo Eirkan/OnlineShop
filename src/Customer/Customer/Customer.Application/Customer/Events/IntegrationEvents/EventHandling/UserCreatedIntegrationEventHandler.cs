@@ -6,16 +6,16 @@ namespace Customer.Application.Customer.Events.IntegrationEvents.EventHandling
     /// <summary>
     /// Represents the handler for the <see cref="UserCreatedIntegrationEventHandler"/> event.
     /// </summary>
-    public sealed class UserCreatedIntegrationEventHandler : IIntegrationEventHandler<UserCreatedIntegrationEvent>
+    public sealed class UserCreatedIntegrationEventHandler : IIntegrationEventHandler<CustomerCreatedIntegrationEvent>
     {
         public UserCreatedIntegrationEventHandler()
         {
         }
 
-        public async Task Handle(UserCreatedIntegrationEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(CustomerCreatedIntegrationEvent notification, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
-            var notificationId = notification.UserId;
+            var notificationId = notification.CustomerId;
         }
     }
 }
