@@ -8,15 +8,15 @@ namespace Customer.Infrastructure.Persistence.Specifications
     /// <summary>
     /// Represents the specification for determining the user with email.
     /// </summary>
-    public sealed class UserWithEmailSpecification : Specification<Domain.Entities.Customers.Customer>
+    public sealed class CustomerWithEmailSpecification : Specification<Domain.Entities.Customers.Customer>
     {
         private readonly Email _email;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserWithEmailSpecification"/> class.
+        /// Initializes a new instance of the <see cref="CustomerWithEmailSpecification"/> class.
         /// </summary>
         /// <param name="email">The email.</param>
-        internal UserWithEmailSpecification(Email email) => _email = email;
+        internal CustomerWithEmailSpecification(Email email) => _email = email;
 
         /// <inheritdoc />
         public override Expression<Func<Domain.Entities.Customers.Customer, bool>> ToExpression() => user => user.Email == _email.Value;
