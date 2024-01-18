@@ -11,7 +11,7 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
@@ -19,6 +19,10 @@
     <ProjectReference Include="..\Product.Contracts\Product.Contracts.csproj" />
     <ProjectReference Include="..\Product.Core.IntegrationEventLogEF\Product.Core.IntegrationEventLogEF.csproj" />
     <ProjectReference Include="..\Product.Domain\Product.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Product\Common\" />
   </ItemGroup>
 
 </Project>

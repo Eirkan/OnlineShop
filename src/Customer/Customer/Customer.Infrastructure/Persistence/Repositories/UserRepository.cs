@@ -1,11 +1,11 @@
-using Customer.Domain.Entities.Users;
+using Customer.Domain.Entities.Customers;
 using Customer.Domain.Repositories;
 using Customer.Domain.ValueObjects;
 using Customer.Infrastructure.Persistence.Specifications;
 
 namespace Customer.Infrastructure.Persistence.Repositories
 {
-    internal sealed class UserRepository : GenericRepository<User>, IUserRepository
+    internal sealed class UserRepository : GenericRepository<Domain.Entities.Customers.Customer>, ICustomerRepository
     {
         private readonly IDbContext _dbContext;
         //protected readonly DbSet<User> Users;
@@ -18,14 +18,14 @@ namespace Customer.Infrastructure.Persistence.Repositories
         }
 
 
-        public User? GetUserById(Guid id)
+        public Domain.Entities.Customers.Customer? GetUserById(Guid id)
         {
             //var response = _dbContext.Users.Where(SpecificationByGuidId<User>.Create(id)).SingleOrDefault();
             var response = GetByIdAsync(id).GetAwaiter().GetResult();
             return response;
         }
 
-        public User? GetUserByEmail(Email email)
+        public Domain.Entities.Customers.Customer? GetCustomerByEmail(Email email)
         {
             var response = FirstOrDefaultAsync(new UserWithEmailSpecification(email)).GetAwaiter().GetResult();
             return response;

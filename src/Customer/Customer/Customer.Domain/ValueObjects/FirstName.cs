@@ -14,9 +14,9 @@ namespace Customer.Domain.ValueObjects
         public string Value { get; private set; }
 
 
-        private FirstName(string email)
+        private FirstName(string firstName)
         {
-            Value = email;
+            Value = firstName;
         }
 
         private FirstName()
@@ -47,9 +47,9 @@ namespace Customer.Domain.ValueObjects
 
         public static implicit operator string(FirstName email) => email?.Value ?? string.Empty;
 
-        public static explicit operator FirstName(string email)
+        public static explicit operator FirstName(string value)
         {
-            ErrorOr<FirstName> firstNameResult = Create(email);
+            ErrorOr<FirstName> firstNameResult = Create(value);
             FirstName? firstName = firstNameResult.Value;
 
             return firstNameResult.IsError || firstName is null ? Empty : firstName;

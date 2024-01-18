@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Customer.Domain\Customer.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Customer\Common\" />
+  </ItemGroup>
+
 </Project>

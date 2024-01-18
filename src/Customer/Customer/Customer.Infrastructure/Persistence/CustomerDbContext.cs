@@ -1,4 +1,4 @@
-﻿using Customer.Domain.Entities.Users;
+﻿using Customer.Domain.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Customer.Infrastructure.Persistence
@@ -8,7 +8,7 @@ namespace Customer.Infrastructure.Persistence
         private readonly string _defaultSchemaName = string.Empty;
 
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Domain.Entities.Customers.Customer> Users { get; set; }
 
 
         public new DbSet<TEntity> Set<TEntity>()

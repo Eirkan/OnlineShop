@@ -4,13 +4,13 @@
     public static partial class ApiRoutes
     {
         /// <summary>
-        /// Contains the Authentication routes.
+        /// Contains the Customer routes.
         /// </summary>
-        public static class Authentication
+        public static class Customer
         {
-            public const string Login = "authentication/login";
+            public const string GetByEMail = "Customer/GetByEMail";
 
-            public const string Register = "authentication/register";
+            public const string Insert = "Customer/Insert";
         }
     }
 }

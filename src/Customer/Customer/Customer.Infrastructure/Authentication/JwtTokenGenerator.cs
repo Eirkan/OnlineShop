@@ -1,5 +1,5 @@
 using Customer.Application.Common.Abstractions.Authentication;
-using Customer.Domain.Entities.Users;
+using Customer.Domain.Entities.Customers;
 using Customer.Domain.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +21,7 @@ namespace Customer.Infrastructure.Authentication
             _jwtSettings = jwtOptions.Value;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(Domain.Entities.Customers.Customer user)
         {
             var claims = new Claim[]
             {

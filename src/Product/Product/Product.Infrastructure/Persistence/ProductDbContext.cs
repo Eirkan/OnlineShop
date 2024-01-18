@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Product.Domain.Entities.Users;
 
 namespace Product.Infrastructure.Persistence
 {
@@ -8,7 +7,7 @@ namespace Product.Infrastructure.Persistence
         private readonly string _defaultSchemaName = string.Empty;
 
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Domain.Entities.Products.Product> Products { get; set; }
 
 
         public new DbSet<TEntity> Set<TEntity>()

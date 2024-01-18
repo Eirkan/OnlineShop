@@ -1,5 +1,5 @@
 ﻿using Customer.Core.Specification;
-using Customer.Domain.Entities.Users;
+using Customer.Domain.Entities.Customers;
 using Customer.Domain.ValueObjects;
 using System.Linq.Expressions;
 
@@ -8,7 +8,7 @@ namespace Customer.Infrastructure.Persistence.Specifications
     /// <summary>
     /// Represents the specification for determining the user with email.
     /// </summary>
-    public sealed class UserWithEmailSpecification : Specification<User>
+    public sealed class UserWithEmailSpecification : Specification<Domain.Entities.Customers.Customer>
     {
         private readonly Email _email;
 
@@ -19,6 +19,6 @@ namespace Customer.Infrastructure.Persistence.Specifications
         internal UserWithEmailSpecification(Email email) => _email = email;
 
         /// <inheritdoc />
-        public override Expression<Func<User, bool>> ToExpression() => user => user.Email == _email.Value;
+        public override Expression<Func<Domain.Entities.Customers.Customer, bool>> ToExpression() => user => user.Email == _email.Value;
     }
 }

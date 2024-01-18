@@ -1,0 +1,9 @@
+@host=https://localhost:61886
+
+GET {{host}}/Product/GetById
+Content-Type: application/json
+
+{
+    "email": "something@email.com",
+    "password": "12345"
+}
