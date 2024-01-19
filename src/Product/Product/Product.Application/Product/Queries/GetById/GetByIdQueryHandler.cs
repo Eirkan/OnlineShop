@@ -9,73 +9,70 @@ using Product.Contracts.ApiRoutes;
 using Product.Contracts.Product.GetById;
 using Product.Core.Domain.Messaging;
 using Product.Domain.Repositories;
+using Product.Domain.Common.Errors;
+using ProductEntity = Product.Domain.Entities.Products.Product;
 
-namespace Product.Application.Product.Queries.GetById
+
+namespace Product.Application.Product.Queries.GetById;
+
+[AllowAnonymous]
+public class ProductController : ApiController
 {
-    [AllowAnonymous]
-    public class ProductController : ApiController
+    private readonly ISender _mediator;
+    private readonly IMapper _mapper;
+
+    public ProductController(
+        ISender mediator
+        , IMapper mapper
+        )
     {
-        private readonly ISender _mediator;
-        private readonly IMapper _mapper;
-
-        public ProductController(
-            ISender mediator
-            , IMapper mapper
-            )
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-        }
-
-        [HttpPost(ApiRoutes.Product.GetById)]
-        [ProducesResponseType(typeof(GetByIdResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> HandleAsync(GetByIdRequest request)
-        {
-            var query = _mapper.Map<GetByIdQuery>(request);
-            var response = await _mediator.Send(query);
-
-            return response.Match(
-                result => Ok(_mapper.Map<GetByIdResponse>(result)),
-                errors => Problem(errors)
-            );
-        }
+        _mediator = mediator;
+        _mapper = mapper;
     }
 
-
-    public class GetByIdQueryHandler : IQueryHandler<GetByIdQuery, ErrorOr<GetByIdResponse>>
+    [HttpPost(ApiRoutes.Product.GetById)]
+    [ProducesResponseType(typeof(GetByIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> HandleAsync(GetByIdRequest request)
     {
-        private readonly IProductRepository _productRepository;
+        var query = _mapper.Map<GetByIdQuery>(request);
+        var response = await _mediator.Send(query);
 
-        public GetByIdQueryHandler(IProductRepository productRepository)
+        return response.Match(
+            result => Ok(result),
+            errors => Problem(errors)
+        );
+    }
+}
+
+
+public class GetByIdQueryHandler : IQueryHandler<GetByIdQuery, ErrorOr<GetByIdResponse>>
+{
+    private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
+
+    public GetByIdQueryHandler(IProductRepository productRepository, IMapper mapper)
+    {
+        _productRepository = productRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<ErrorOr<GetByIdResponse>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+    {
+        await Task.CompletedTask;
+
+        if (request.Id == Guid.Empty)
         {
-            _productRepository = productRepository;
+            return Errors.Product.IdNullOrEmpty;
         }
 
-        public async Task<ErrorOr<GetByIdResponse>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+        if (_productRepository.GetProductId(request.Id) is not ProductEntity product)
         {
-            await Task.CompletedTask;
-            //var email = Email.Create(request.Email);
-            //if (email.IsError)
-            //{
-            //    return email.Errors;
-            //}
-
-            //if (_userRepository.GetUserByEmail(email.Value) is not User user)
-            //{
-            //    return Errors.Authentication.InvalidCredentials;
-            //}
-
-            //if (user.Password != request.Password)
-            //{
-            //    return Errors.Authentication.InvalidCredentials;
-            //}
-
-
-
-            return new GetByIdResponse(request.Id, "Name", "Description", 12.45m, 3);
-            //return new AuthenticationResult(user, token);
+            return Errors.Product.NullOrEmpty;
         }
+
+        var response = _mapper.Map<GetByIdResponse>(product);
+        return response;
     }
 }

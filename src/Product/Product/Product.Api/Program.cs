@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Product.Api.Middleware;
 using Product.Application;
 using Product.Infrastructure;
+using System;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +37,10 @@ var app = builder.Build();
     app.UseAuthorization();
     app.MapControllers();
 
+    //await app.MigrateDatabase();
+
     app.Run();
 }
 
 public partial class Startup { }
+

@@ -38,10 +38,7 @@ namespace Customer.Application.Customer.Commands.Insert
             var command = _mapper.Map<InsertCommand>(request);
             var response = await _mediator.Send(command);
 
-            return response.Match(
-                result => Ok(_mapper.Map<InsertResponse>(result)),
-                errors => Problem(errors)
-            );
+            return response.Match(result => Ok(result), errors => Problem(errors));
         }
     }
 
@@ -86,8 +83,8 @@ namespace Customer.Application.Customer.Commands.Insert
 
             customer.InsertCustomer();
 
-
-            return new InsertResponse(Guid.NewGuid(), request.FirstName, request.LastName, request.Email);
+            var response = _mapper.Map<InsertResponse>(customer);
+            return response;
         }
     }
 }

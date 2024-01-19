@@ -4,5 +4,5 @@ POST {{host}}/Product/GetById
 Content-Type: application/json
 
 {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    "id": "dc4018f0-c1e3-4469-4748-08dc191c864f"
 }

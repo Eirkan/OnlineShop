@@ -9,82 +9,63 @@ using Product.Contracts.ApiRoutes;
 using Product.Contracts.Product.Insert;
 using Product.Core.Domain.Messaging;
 using Product.Domain.Repositories;
+using ProductEntity = Product.Domain.Entities.Products.Product;
 
-namespace Product.Application.Product.Commands.Insert
+namespace Product.Application.Product.Commands.Insert;
+
+[AllowAnonymous]
+public class ProductController : ApiController
 {
-    [AllowAnonymous]
-    public class ProductController : ApiController
+    private readonly ISender _mediator;
+    private readonly IMapper _mapper;
+
+    public ProductController(
+        ISender mediator
+        , IMapper mapper
+        )
     {
-        private readonly ISender _mediator;
-        private readonly IMapper _mapper;
-
-        public ProductController(
-            ISender mediator
-            , IMapper mapper
-            )
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-        }
-
-        [HttpPost(ApiRoutes.Product.Insert)]
-        [ProducesResponseType(typeof(InsertResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> HandleAsync(InsertRequest request)
-        {
-            var command = _mapper.Map<InsertCommand>(request);
-            var response = await _mediator.Send(command);
-
-            return response.Match(
-                result => Ok(_mapper.Map<InsertResponse>(result)),
-                errors => Problem(errors)
-            );
-        }
+        _mediator = mediator;
+        _mapper = mapper;
     }
 
-
-
-    public class InsertCommandHandler : ICommandHandler<InsertCommand, ErrorOr<InsertResponse>>
+    [HttpPost(ApiRoutes.Product.Insert)]
+    [ProducesResponseType(typeof(InsertResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> HandleAsync(InsertRequest request)
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        private readonly IProductIntegrationEventService _eventService;
+        var command = _mapper.Map<InsertCommand>(request);
+        var response = await _mediator.Send(command);
 
-        public InsertCommandHandler(
-            IProductRepository productRepository,
-            IMediator mediator,
-            IMapper mapper,
-            IProductIntegrationEventService eventService
-            )
-        {
-            _productRepository = productRepository;
-            _mediator = mediator;
-            _mapper = mapper;
-            _eventService = eventService;
-        }
+        return response.Match(
+            result => Ok(_mapper.Map<InsertResponse>(result)),
+            errors => Problem(errors)
+        );
+    }
+}
 
-        public async Task<ErrorOr<InsertResponse>> Handle(InsertCommand request, CancellationToken cancellationToken)
-        {
-            await Task.CompletedTask;
-            //var email = Email.Create(request.Email);
-            //if (email.IsError)
-            //{
-            //    return email.Errors;
-            //}
 
-            //if (_userRepository.GetUserByEmail(email.Value) is not null)
-            //{
-            //    return Errors.User.DuplicateEmail;
-            //}
 
-            var product = _mapper.Map<Domain.Entities.Products.Product>(request);
-            //_productRepository.Insert(product);
-            //product.InsertProduct();
+public class InsertCommandHandler : ICommandHandler<InsertCommand, ErrorOr<InsertResponse>>
+{
+    private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
 
-            var response = new Domain.Entities.Products.Product(Guid.NewGuid(), request.Name, request.Description, request.Price, request.AvailableStock);
-            var result = _mapper.Map<InsertResponse>(response);
-            return result;
-        }
+    public InsertCommandHandler(IProductRepository productRepository, IMapper mapper)
+    {
+        _productRepository = productRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<ErrorOr<InsertResponse>> Handle(InsertCommand request, CancellationToken cancellationToken)
+    {
+        await Task.CompletedTask;
+
+        var product = _mapper.Map<ProductEntity>(request);
+        _productRepository.Insert(product);
+
+        product.InsertProduct();
+
+        var response = _mapper.Map<InsertResponse>(product);
+        return response;
     }
 }

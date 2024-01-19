@@ -1,14 +1,14 @@
 ﻿using Mapster;
 using Product.Contracts.Product.Insert;
+using ProductEntity = Product.Domain.Entities.Products.Product;
 
-namespace Product.Application.Product.Commands.Insert
+namespace Product.Application.Product.Commands.Insert;
+
+public class InsertMappingConfig : IRegister
 {
-    public class InsertMappingConfig : IRegister
+    public void Register(TypeAdapterConfig config)
     {
-        public void Register(TypeAdapterConfig config)
-        {
-            config.NewConfig<Domain.Entities.Products.Product, InsertResponse>()
-                .Map(dest => dest, src => src);
-        }
+        config.NewConfig<ProductEntity, InsertResponse>()
+            .Map(dest => dest, src => src);
     }
 }

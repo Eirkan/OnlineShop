@@ -1,15 +1,13 @@
 ﻿using Product.Core.Common.Dependency;
-using Product.Domain.Entities.Products;
-using Product.Domain.ValueObjects;
+using ProductEntity = Product.Domain.Entities.Products.Product;
 
-namespace Product.Domain.Repositories
+namespace Product.Domain.Repositories;
+
+public interface IProductRepository : IScopedDependency
 {
-    public interface IProductRepository : IScopedDependency
-    {
-        Entities.Products.Product? GetOrderById(int id);
+    ProductEntity? GetProductId(Guid id);
 
-        void Insert(Entities.Products.Product product);
+    void Insert(ProductEntity product);
 
-        void Update(Entities.Products.Product product);
-    }
+    void Update(ProductEntity product);
 }

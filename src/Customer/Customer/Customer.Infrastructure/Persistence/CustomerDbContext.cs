@@ -1,5 +1,7 @@
 ﻿using Customer.Domain.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Customer.Infrastructure.Persistence
 {
