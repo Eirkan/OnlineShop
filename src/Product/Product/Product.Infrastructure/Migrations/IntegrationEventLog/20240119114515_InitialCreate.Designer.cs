@@ -12,7 +12,7 @@ using Product.Core.IntegrationEventLogEF;
 namespace Product.Infrastructure.Migrations.IntegrationEventLog
 {
     [DbContext(typeof(IntegrationEventLogContext))]
-    [Migration("20240119092401_InitialCreate")]
+    [Migration("20240119114515_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

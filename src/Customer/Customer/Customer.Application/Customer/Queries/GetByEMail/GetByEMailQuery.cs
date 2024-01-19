@@ -4,13 +4,14 @@ using Customer.Contracts.Customer.GetByEMail;
 using Customer.Core.Domain.Messaging;
 using ErrorOr;
 using Microsoft.Extensions.Caching.Distributed;
+using CustomerEntity = Customer.Domain.Entities.Customers.Customer;
 
 namespace Customer.Application.Customer.Queries.GetByEMail
 {
-    public record GetByEMailQuery(string Email) : IQuery<ErrorOr<GetByEMailResponse>>;
+    public record GetByEMailQuery(string Email) : IQuery<ErrorOr<CustomerEntity>>;
 
 
-    public class LoginQueryCache : DistributedCache<GetByEMailQuery, ErrorOr<GetByEMailResponse>>
+    public class LoginQueryCache : DistributedCache<GetByEMailQuery, ErrorOr<CustomerEntity>>
     {
         /*
         // expire the cache in five minutes from now regardless of how many times it's accessed in this time.
@@ -24,7 +25,7 @@ namespace Customer.Application.Customer.Queries.GetByEMail
         /// </summary>
         protected override TimeSpan? SlidingExpiration => TimeSpan.FromSeconds(30);
 
-        protected override Type CacheType => typeof(GetByEMailResponse);
+        protected override Type CacheType => typeof(CustomerEntity);
 
         public LoginQueryCache(IDistributedCache distributedCache) : base(distributedCache)
         {
@@ -41,14 +42,14 @@ namespace Customer.Application.Customer.Queries.GetByEMail
             */
         }
 
-        protected override object GetCacheValue(ErrorOr<GetByEMailResponse> request)
+        protected override object GetCacheValue(ErrorOr<CustomerEntity> request)
         {
             return request.Value;
         }
 
-        protected override ErrorOr<GetByEMailResponse> GetCacheReturnType(object value)
+        protected override ErrorOr<CustomerEntity> GetCacheReturnType(object value)
         {
-            return (GetByEMailResponse)value;
+            return (CustomerEntity)value;
         }
     }
 
@@ -56,9 +57,9 @@ namespace Customer.Application.Customer.Queries.GetByEMail
     /// <summary>
     /// Örnekleme için oluþturulmuþtur.
     /// </summary>
-    public class RegisterCommandLoginQueryCacheInvalidator : CacheInvalidator<InsertCommand, GetByEMailQuery, ErrorOr<GetByEMailResponse>>
+    public class RegisterCommandLoginQueryCacheInvalidator : CacheInvalidator<InsertCommand, GetByEMailQuery, ErrorOr<CustomerEntity>>
     {
-        public RegisterCommandLoginQueryCacheInvalidator(ICache<GetByEMailQuery, ErrorOr<GetByEMailResponse>> cache) : base(cache)
+        public RegisterCommandLoginQueryCacheInvalidator(ICache<GetByEMailQuery, ErrorOr<CustomerEntity>> cache) : base(cache)
         {
         }
 
