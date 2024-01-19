@@ -34,8 +34,6 @@ namespace Product.Infrastructure
                 .AddEventBus(configuration);
 
 
-            //services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            //services.AddScoped<IUserRepository, UserRepository>();
             services.RegisterAssembly();
 
             return services;

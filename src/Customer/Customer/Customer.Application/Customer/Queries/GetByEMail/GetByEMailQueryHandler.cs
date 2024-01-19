@@ -1,5 +1,4 @@
 using Customer.Application.Common.Abstractions;
-using Customer.Application.Common.Abstractions.Authentication;
 using Customer.Contracts.ApiRoutes;
 using Customer.Contracts.Customer.GetByEMail;
 using Customer.Core.Domain.Messaging;
@@ -38,9 +37,9 @@ namespace Customer.Application.Customer.Queries.GetByEMail
         public async Task<IActionResult> HandleAsync(GetByEMailRequest request)
         {
             var query = _mapper.Map<GetByEMailQuery>(request);
-            var serviceResult = await _mediator.Send(query);
+            var response = await _mediator.Send(query);
 
-            return serviceResult.Match(
+            return response.Match(
                 result => Ok(_mapper.Map<GetByEMailResponse>(result)),
                 errors => Problem(errors)
             );

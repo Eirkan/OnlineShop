@@ -5,7 +5,7 @@ namespace Product.Infrastructure.Persistence
     internal class DbContextConfigurer
     {
 
-        private static string _connectionString = "User";
+        private static string _connectionString = "Product";
         public static void Configure(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase(_connectionString);

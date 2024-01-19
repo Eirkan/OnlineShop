@@ -7,16 +7,16 @@ namespace Customer.Domain.Entities.Customers.Events
     /// </summary>
     public sealed class CustomerCreatedDomainEvent : BaseDomainEvent
     {
-        public CustomerCreatedDomainEvent(Guid userId, string firstName, string lastName, string email)
+        public CustomerCreatedDomainEvent(Guid customerId, string firstName, string lastName, string email)
         {
-            UserId = userId;
+            CustomerId = customerId;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
         }
 
 
-        public Guid UserId { get; }
+        public Guid CustomerId { get; }
         public string FirstName { get; }
         public string LastName { get; }
         public string Email { get; }

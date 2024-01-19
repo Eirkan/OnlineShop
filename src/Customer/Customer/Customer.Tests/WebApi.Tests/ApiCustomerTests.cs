@@ -37,10 +37,33 @@ namespace Customer.Tests.WebApi.Tests
             return result!;
         }
 
+        [Fact]
+        public async Task Get_Customer_ByEMail()
+        {
+            // Arrange        
+            await Task.CompletedTask;
+            var client = _factory.CreateClient();
+            var request = new GetByEMailRequest("something@email.com");
+
+            // Act
+            var response =
+                Should.CompleteIn(async () =>
+                {
+                    return await client.PostAsync(ApiRoutes.Customer.GetByEMail, GetHttpContentForJson(request));
+                },
+                    TimeSpan.FromSeconds(30)
+                );
+
+
+            // Assert
+            response.ShouldNotBeNull();
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+        }
+
 
         [Theory, TestPriority(1)]
         [InlineData("erkan", "uygun", "euygun@gmail.com")]
-        public async Task Register_user_test(string firstName, string lastName, string email)
+        public async Task Insert_Customer_test(string firstName, string lastName, string email)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Startup>();
@@ -59,12 +82,11 @@ namespace Customer.Tests.WebApi.Tests
 
         [Theory, TestPriority(2)]
         [InlineData("erkan", "uygun", "erkan@gmail.com")]
-        public async Task Insert_and_GetByEMail_user_test(string firstName, string lastName, string email)
+        public async Task Insert_and_GetByEMail_Customer_test(string firstName, string lastName, string email)
         {
             // Arrange
             await Task.CompletedTask;
             var client = _factory.CreateClient();
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
 
             var request = new InsertRequest(firstName, lastName, email);
             var getByEMailRequest = new GetByEMailRequest(email);

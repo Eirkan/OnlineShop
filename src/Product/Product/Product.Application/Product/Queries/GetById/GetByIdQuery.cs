@@ -32,7 +32,7 @@ namespace Product.Application.Product.Queries.GetById
 
         protected override string GetCacheKeyIdentifier(GetByIdQuery request)
         {
-            // cache every response where the user id is different
+            // cache every response where the Product id is different
             return request.Id.ToString();
 
             /*

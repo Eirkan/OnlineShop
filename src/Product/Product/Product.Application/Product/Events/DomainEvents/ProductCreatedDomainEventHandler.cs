@@ -8,11 +8,11 @@ namespace Product.Application.Product.Events.DomainEvents
     /// <summary>
     /// Represents the handler for the <see cref="ProductCreatedDomainEvent"/> event.
     /// </summary>
-    public sealed class UserCreatedDomainEventHandler : IDomainEventHandler<ProductCreatedDomainEvent>
+    public sealed class ProductCreatedDomainEventHandler : IDomainEventHandler<ProductCreatedDomainEvent>
     {
         private readonly IProductIntegrationEventService _eventService;
 
-        public UserCreatedDomainEventHandler(
+        public ProductCreatedDomainEventHandler(
             IProductIntegrationEventService eventService
             )
         {

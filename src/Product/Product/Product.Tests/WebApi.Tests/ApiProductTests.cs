@@ -1,3 +1,4 @@
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Product.Contracts.ApiRoutes;
@@ -39,20 +40,20 @@ namespace Product.Tests.WebApi.Tests
 
 
         [Fact]
-        public async Task Get_EndpointsReturnSuccessAndCorrectContentType()
+        public async Task Get_Product_ById()
         {
             // Arrange        
             await Task.CompletedTask;
             var client = _factory.CreateClient();
-
+            var request = new GetByIdRequest(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"));
 
             // Act
             var response =
                 Should.CompleteIn(async () =>
                 {
-                    return await client.GetAsync("/weatherforecast");
+                    return await client.PostAsync(ApiRoutes.Product.GetById, GetHttpContentForJson(request));
                 },
-                    TimeSpan.FromSeconds(5)
+                    TimeSpan.FromSeconds(30)
                 );
 
 

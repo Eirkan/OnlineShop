@@ -34,14 +34,9 @@ namespace Product.Application.Product.Queries.GetById
         public async Task<IActionResult> HandleAsync(GetByIdRequest request)
         {
             var query = _mapper.Map<GetByIdQuery>(request);
-            var serviceResult = await _mediator.Send(query);
+            var response = await _mediator.Send(query);
 
-            //if (authResult.IsError && authResult.FirstError == Errors.Authentication.InvalidCredentials)
-            //{
-            //    return Problem(statusCode: StatusCodes.Status401Unauthorized, title: authResult.FirstError.Description);
-            //}
-
-            return serviceResult.Match(
+            return response.Match(
                 result => Ok(_mapper.Map<GetByIdResponse>(result)),
                 errors => Problem(errors)
             );

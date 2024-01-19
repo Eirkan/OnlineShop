@@ -5,7 +5,7 @@
     {
         public static class Order
         {
-            public const string GetOrdersByDateRange = "Order/GetOrdersByDate";
+            public const string GetOrdersByDateRange = "Order/GetOrdersByDateRange";
 
             public const string GetOrder = "Order/GetOrder";
         }

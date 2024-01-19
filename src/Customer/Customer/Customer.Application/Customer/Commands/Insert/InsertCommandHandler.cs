@@ -36,9 +36,9 @@ namespace Customer.Application.Customer.Commands.Insert
         public async Task<IActionResult> HandleAsyc(InsertRequest request)
         {
             var command = _mapper.Map<InsertCommand>(request);
-            var serviceResult = await _mediator.Send(command);
+            var response = await _mediator.Send(command);
 
-            return serviceResult.Match(
+            return response.Match(
                 result => Ok(_mapper.Map<InsertResponse>(result)),
                 errors => Problem(errors)
             );
@@ -49,19 +49,19 @@ namespace Customer.Application.Customer.Commands.Insert
 
     public class InsertCommandHandler : ICommandHandler<InsertCommand, ErrorOr<InsertResponse>>
     {
-        private readonly ICustomerRepository _userRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly ICustomerIntegrationEventService _eventService;
 
         public InsertCommandHandler(
-            ICustomerRepository userRepository,
+            ICustomerRepository customerRepository,
             IMediator mediator,
             IMapper mapper,
             ICustomerIntegrationEventService eventService
             )
         {
-            _userRepository = userRepository;
+            _customerRepository = customerRepository;
             _mediator = mediator;
             _mapper = mapper;
             _eventService = eventService;
@@ -76,13 +76,13 @@ namespace Customer.Application.Customer.Commands.Insert
                 return email.Errors;
             }
 
-            if (_userRepository.GetCustomerByEmail(email.Value) is not null)
+            if (_customerRepository.GetCustomerByEmail(email.Value) is not null)
             {
                 return Errors.Customer.DuplicateEmail;
             }
 
             var customer = _mapper.Map<CustomerEntity>(request);
-            _userRepository.Insert(customer);
+            _customerRepository.Insert(customer);
 
             customer.InsertCustomer();
 

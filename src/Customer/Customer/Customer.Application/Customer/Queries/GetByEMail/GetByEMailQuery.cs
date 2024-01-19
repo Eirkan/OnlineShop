@@ -32,7 +32,6 @@ namespace Customer.Application.Customer.Queries.GetByEMail
 
         protected override string GetCacheKeyIdentifier(GetByEMailQuery request)
         {
-            // cache every response where the user id is different
             return request.Email.ToString();
 
             /*

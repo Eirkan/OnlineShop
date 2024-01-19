@@ -1,0 +1,12 @@
+@host=https://localhost:7023
+
+POST {{host}}/customer/insert
+Content-Type: application/json
+
+{
+    "firstName": "n",
+    "lastName": "sdf",
+    "email": "something@email.com"
+}
+
+

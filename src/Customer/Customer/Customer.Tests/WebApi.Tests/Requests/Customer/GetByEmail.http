@@ -1,0 +1,8 @@
+@host=https://localhost:7023
+
+POST {{host}}/Customer/GetByEmail
+Content-Type: application/json
+
+{
+    "email": "something@email.com"
+}

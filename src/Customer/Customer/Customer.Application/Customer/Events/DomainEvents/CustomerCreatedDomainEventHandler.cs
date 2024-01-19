@@ -8,11 +8,11 @@ namespace Customer.Application.Customer.Events.DomainEvents
     /// <summary>
     /// Represents the handler for the <see cref="CustomerCreatedDomainEvent"/> event.
     /// </summary>
-    public sealed class UserCreatedDomainEventHandler : IDomainEventHandler<CustomerCreatedDomainEvent>
+    public sealed class CustomerCreatedDomainEventHandler : IDomainEventHandler<CustomerCreatedDomainEvent>
     {
         private readonly ICustomerIntegrationEventService _eventService;
 
-        public UserCreatedDomainEventHandler(
+        public CustomerCreatedDomainEventHandler(
             ICustomerIntegrationEventService eventService
             )
         {
@@ -23,7 +23,7 @@ namespace Customer.Application.Customer.Events.DomainEvents
         {
             await Task.CompletedTask;
 
-            var integrationEvent = new CustomerCreatedIntegrationEvent(notification.UserId);
+            var integrationEvent = new CustomerCreatedIntegrationEvent(notification.CustomerId);
             await _eventService.AddAndSaveEventAsync(integrationEvent);
         }
     }

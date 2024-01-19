@@ -1,0 +1,9 @@
+@host=https://localhost:7022
+
+POST {{host}}/order/GetOrdersByDateRange
+Content-Type: application/json
+
+{
+  "startDate": "2024-01-19T08:31:42.680Z",
+  "endDate": "2024-01-19T08:31:42.680Z"
+}

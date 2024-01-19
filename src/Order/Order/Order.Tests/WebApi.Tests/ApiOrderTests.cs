@@ -9,10 +9,10 @@ using System.Text;
 namespace Order.Tests.WebApi.Tests
 {
     [TestCaseOrderer("PriorityOrderer", "Order.Tests")]
-    public class ApiAuthenticationTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class ApiOrderTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
-        public ApiAuthenticationTests(WebApplicationFactory<Startup> factory)
+        public ApiOrderTests(WebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }

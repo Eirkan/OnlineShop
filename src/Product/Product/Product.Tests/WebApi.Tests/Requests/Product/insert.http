@@ -1,15 +1,12 @@
-@host=https://localhost:61886
+@host=https://localhost:7024
 
 POST {{host}}/product/insert
 Content-Type: application/json
 
 {
-    "firstName": "n",
-    "lastName": "sdf",
-    "email": "something@email.com",
-    "password": "12345"
+  "name": "n",
+  "description": "sdf",
+  "price": 1.25,
+  "availableStock": 6
 }
 
-
-###
-GET  {{host}}/product

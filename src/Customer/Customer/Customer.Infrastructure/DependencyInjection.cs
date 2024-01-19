@@ -1,12 +1,10 @@
 ﻿using Customer.Application.Common.Abstractions;
-using Customer.Application.Common.Abstractions.Authentication;
 using Customer.Core.Common.Dependency;
 using Customer.Core.Domain.Messaging.Events;
 using Customer.Core.EventBusRabbitMQ;
 using Customer.Core.EventBusRabbitMQ.Settings;
 using Customer.Core.IntegrationEventLogEF;
 using Customer.Core.IntegrationEventLogEF.Services;
-using Customer.Infrastructure.Authentication;
 using Customer.Infrastructure.Persistence;
 using Customer.Infrastructure.Persistence.IntegrationEvents;
 using Customer.Infrastructure.Persistence.Settings;
@@ -35,13 +33,9 @@ namespace Customer.Infrastructure
             services.Configure<ConnectionStringSettings>(configuration.GetSection(ConnectionStringSettings.SettingsKey));
 
             services
-                .AddAuth(configuration)
                 .AddDatabase(configuration)
                 .AddEventBus(configuration);
 
-
-            //services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            //services.AddScoped<IUserRepository, UserRepository>();
             services.RegisterAssembly();
 
             return services;
@@ -50,8 +44,8 @@ namespace Customer.Infrastructure
         private static IServiceCollection AddDatabase(this IServiceCollection services, ConfigurationManager configuration)
         {
             services
-                .AddInMemoryDbContexts(configuration)
-                //.AddSqlServerContexts(configuration)
+                //.AddInMemoryDbContexts(configuration)
+                .AddSqlServerContexts(configuration)
                 ;
 
             services.AddScoped<IDbContext>(factory => factory.GetRequiredService<CustomerDbContext>());
@@ -166,31 +160,6 @@ namespace Customer.Infrastructure
 
                 return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, mediator, subscriptionClientName, retryCount);
             });
-
-            return services;
-        }
-
-        private static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
-        {
-            var jwtSettings = new JwtSettings();
-            configuration.Bind(nameof(JwtSettings), jwtSettings);
-            services.AddSingleton(Options.Create(jwtSettings));
-            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-
-            var defaultClockSkew = TimeSpan.FromSeconds(5);
-
-            services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ClockSkew = defaultClockSkew,
-                    ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
-                });
 
             return services;
         }

@@ -4,11 +4,11 @@ using Customer.Core.Domain.Messaging.Events;
 namespace Customer.Application.Customer.Events.IntegrationEvents.EventHandling
 {
     /// <summary>
-    /// Represents the handler for the <see cref="UserCreatedIntegrationEventHandler"/> event.
+    /// Represents the handler for the <see cref="CustomerCreatedIntegrationEventHandler"/> event.
     /// </summary>
-    public sealed class UserCreatedIntegrationEventHandler : IIntegrationEventHandler<CustomerCreatedIntegrationEvent>
+    public sealed class CustomerCreatedIntegrationEventHandler : IIntegrationEventHandler<CustomerCreatedIntegrationEvent>
     {
-        public UserCreatedIntegrationEventHandler()
+        public CustomerCreatedIntegrationEventHandler()
         {
         }
 

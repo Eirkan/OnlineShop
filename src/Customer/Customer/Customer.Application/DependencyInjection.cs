@@ -42,8 +42,6 @@ namespace Customer.Application
                 options.Configuration = configuration.GetConnectionString("redis");
             });
 
-            //services.AddScoped(typeof(ICache<LoginQuery, ErrorOr<LoginResponse>>), typeof(LoginQueryCache));
-            //services.AddTransient(typeof(ICacheInvalidator<RegisterCommand>), typeof(UpdateUserGetUsersCacheInvalidator));
             services.RegisterAssembly();
 
             return services;

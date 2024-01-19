@@ -6,7 +6,7 @@ namespace Customer.Contracts.Customer.IntegrationEvents
     {
 
         /// <summary>
-        /// Gets the user identifier.
+        /// Gets the Customer identifier.
         /// </summary>
         public Guid CustomerId { get; }
 

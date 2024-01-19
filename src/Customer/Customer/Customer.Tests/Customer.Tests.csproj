@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Customer.Api\Customer.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="WebApi.Tests\Requests\Authentication\" />
-  </ItemGroup>
-
 </Project>

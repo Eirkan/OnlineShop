@@ -33,9 +33,9 @@ namespace Product.Application.Product.Commands.Insert
         public async Task<IActionResult> HandleAsync(InsertRequest request)
         {
             var command = _mapper.Map<InsertCommand>(request);
-            var registerResult = await _mediator.Send(command);
+            var response = await _mediator.Send(command);
 
-            return registerResult.Match(
+            return response.Match(
                 result => Ok(_mapper.Map<InsertResponse>(result)),
                 errors => Problem(errors)
             );

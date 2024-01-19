@@ -8,7 +8,7 @@ namespace Customer.Infrastructure.Persistence
         private readonly string _defaultSchemaName = string.Empty;
 
 
-        public DbSet<Domain.Entities.Customers.Customer> Users { get; set; }
+        public DbSet<Domain.Entities.Customers.Customer> Customers { get; set; }
 
 
         public new DbSet<TEntity> Set<TEntity>()
