@@ -37,14 +37,14 @@ public class OrderController : ApiController
         var response = await _mediator.Send(query);
 
         return response.Match(
-            result => Ok(_mapper.Map<GetOrdersByDateRangeResponse>(result)),
+            result => Ok(result),
             errors => Problem(errors)
         );
     }
 }
 
 
-public class GetOrdersByDateRangeHandler : IQueryHandler<GetOrdersByDateRangeQuery, ErrorOr<GetOrdersByDateRangeResponse>>
+public class GetOrdersByDateRangeHandler : IQueryHandler<GetOrdersByDateRangeQuery, ErrorOr<List<GetOrdersByDateRangeResponse>>>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
@@ -55,12 +55,12 @@ public class GetOrdersByDateRangeHandler : IQueryHandler<GetOrdersByDateRangeQue
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<GetOrdersByDateRangeResponse>> Handle(GetOrdersByDateRangeQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<GetOrdersByDateRangeResponse>>> Handle(GetOrdersByDateRangeQuery request, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 
         var response = _orderRepository.GetOrdersByDate(request.startDate, request.endDate);
-        var result = _mapper.Map<GetOrdersByDateRangeResponse>(response);
+        var result = _mapper.Map<List<GetOrdersByDateRangeResponse>>(response);
 
         return result;
     }

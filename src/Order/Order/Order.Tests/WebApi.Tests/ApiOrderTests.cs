@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Order.Contracts.ApiRoutes;
+using Order.Contracts.Order.GetOrdersByDateRange;
 using Shouldly;
 using System.Net;
 using System.Net.Http.Headers;
@@ -37,82 +38,27 @@ namespace Order.Tests.WebApi.Tests
 
 
         [Fact]
-        public async Task Get_EndpointsReturnSuccessAndCorrectContentType()
+        public async Task Get_Orders_ByDateRange_Test()
         {
             // Arrange        
             await Task.CompletedTask;
             var client = _factory.CreateClient();
-
+            var request = new GetOrdersByDateRangeRequest(StartDate: DateTime.Now, EndDate: DateTime.Now);
 
             // Act
             var response =
                 Should.CompleteIn(async () =>
                 {
-                    return await client.GetAsync("/weatherforecast");
+                    return await client.PostAsync(ApiRoutes.Order.GetOrdersByDateRange, GetHttpContentForJson(request));
                 },
-                    TimeSpan.FromSeconds(5)
+                    TimeSpan.FromSeconds(15)
                 );
-
+            var result = Deserialize<List<GetOrdersByDateRangeResponse>>(response);
 
             // Assert
             response.ShouldNotBeNull();
             response.EnsureSuccessStatusCode(); // Status Code 200-299
         }
 
-
-        //[Theory, TestPriority(1)]
-        //[InlineData("erkan", "uygun", "euygun@gmail.com", "password")]
-        //public async Task Register_user_test(string firstName, string lastName, string email, string password)
-        //{
-        //    // Arrange
-        //    await using var application = new WebApplicationFactory<Startup>();
-        //    using var client = application.CreateClient();
-        //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-
-        //    GetOrdersRequest request = new GetOrdersRequest(firstName, lastName, email, password);
-
-        //    // Act
-        //    var response = await client.PostAsync(ApiRoutes.Authentication.Register, GetHttpContentForJson(request));
-
-        //    // Assert
-        //    response.StatusCode.ShouldBe(HttpStatusCode.OK);
-        //}
-
-
-        //[Theory, TestPriority(2)]
-        //[InlineData("erkan", "uygun", "erkan@gmail.com", "password")]
-        //public async Task Register_and_login_user_test(string firstName, string lastName, string email, string password)
-        //{
-        //    // Arrange
-        //    await Task.CompletedTask;
-        //    var client = _factory.CreateClient();
-        //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token);
-
-        //    var request = new GetOrdersRequest(firstName, lastName, email, password);
-        //    var loginRequest = new LoginRequest(email, password);
-
-        //    // Act
-        //    var responseRegister =
-        //        Should.CompleteIn(async () =>
-        //        {
-        //            return await client.PostAsync(ApiRoutes.Authentication.Register, GetHttpContentForJson(request));
-        //        }, TimeSpan.FromSeconds(5));
-        //    var resultRegister = Deserialize<GetOrdersResponse>(responseRegister);
-
-        //    var responseLogin =
-        //        Should.CompleteIn(async () =>
-        //        {
-        //            return await client.PostAsync(ApiRoutes.Authentication.Login, GetHttpContentForJson(loginRequest));
-        //        }, TimeSpan.FromSeconds(5));
-        //    var resultlogin = Deserialize<LoginResponse>(responseLogin);
-
-
-        //    // Assert
-        //    responseRegister.StatusCode.ShouldBe(HttpStatusCode.OK);
-        //    responseLogin.StatusCode.ShouldBe(HttpStatusCode.OK);
-
-        //    resultRegister.Token.ShouldNotBeNull();
-        //    resultlogin.Token.ShouldNotBeNull();
-        //}
     }
 }
