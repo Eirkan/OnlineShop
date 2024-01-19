@@ -1,4 +1,4 @@
-@host=https://localhost:49691
+@host=https://localhost:7023
 
 POST {{host}}/Customer/GetByEmail
 Content-Type: application/json
