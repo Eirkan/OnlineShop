@@ -54,7 +54,7 @@ Update-Database -Context IntegrationEventLogContext
 
 To connect sqlserver use "SQL Server Object Explorer" from view menu in visual studio. 
 SSMS Connection
-Server Name     : 127.0.0.1,5433
+Server Name     : localhost,5432
 Authentication  : SQL Server Authentication
 User Name       : sa
 Password        : Pass@word
@@ -87,7 +87,7 @@ Update-Database -Context IntegrationEventLogContext
 
 To connect sqlserver use "SQL Server Object Explorer" from view menu in visual studio. 
 SSMS Connection
-Server Name     : 127.0.0.1,5433
+Server Name     : localhost,5435
 Authentication  : SQL Server Authentication
 User Name       : sa
 Password        : Pass@word
