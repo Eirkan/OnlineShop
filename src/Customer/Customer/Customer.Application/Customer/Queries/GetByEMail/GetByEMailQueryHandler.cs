@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using static StackExchange.Redis.Role;
 using CustomerEntity = Customer.Domain.Entities.Customers.Customer;
 
 namespace Customer.Application.Customer.Queries.GetByEMail
@@ -41,23 +42,25 @@ namespace Customer.Application.Customer.Queries.GetByEMail
             var response = await _mediator.Send(query);
 
             return response.Match(
-                result => Ok(_mapper.Map<GetByEMailResponse>(result)),
+                result => Ok(result),
                 errors => Problem(errors)
             );
         }
     }
 
 
-    public class GetByEMailQueryHandler : IQueryHandler<GetByEMailQuery, ErrorOr<CustomerEntity>>
+    public class GetByEMailQueryHandler : IQueryHandler<GetByEMailQuery, ErrorOr<GetByEMailResponse>>
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IMapper _mapper;
 
-        public GetByEMailQueryHandler(ICustomerRepository customerRepository)
+        public GetByEMailQueryHandler(ICustomerRepository customerRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ErrorOr<CustomerEntity>> Handle(GetByEMailQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<GetByEMailResponse>> Handle(GetByEMailQuery request, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             var email = Email.Create(request.Email);
@@ -70,8 +73,9 @@ namespace Customer.Application.Customer.Queries.GetByEMail
             {
                 return Errors.Customer.NullOrEmpty;
             }
-            return customer;
-            //return new GetByEMailResponse(Guid.NewGuid(), customer.FirstName, customer.LastName, customer.Email);
+
+            var result = _mapper.Map<GetByEMailResponse>(customer);
+            return result;
         }
     }
 }
