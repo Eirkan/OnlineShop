@@ -2,10 +2,10 @@ version: '3.9'
 
 services:
 
-  sqldata:
+  sql:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
-  redisdata:
+  redis:
     image: redis:alpine
 
   rabbitmq:
@@ -17,8 +17,8 @@ services:
       context: .
       dockerfile: Product/Product.Api/Dockerfile
     depends_on:
-      - sqldata
-      - redisdata
+      - sql
+      - redis
       - rabbitmq
     extra_hosts:
     - "localhost:192.168.65.2"

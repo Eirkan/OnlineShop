@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  sqldata:
+  sql:
     container_name: db-server-product
     environment:
       - SA_PASSWORD=Pass@word
@@ -14,7 +14,7 @@ services:
     networks:
       - product-api 
 
-  redisdata:
+  redis:
     container_name: redis-product
     ports:
       - "6381:6379"
