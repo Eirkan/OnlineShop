@@ -34,12 +34,6 @@ namespace Product.Application.Product.Queries.GetById
         {
             // cache every response where the Product id is different
             return request.Id.ToString();
-
-            /*
-            // in this case, return the whole list from cache. In production apps, the key could be a criteria object
-            // including skip and take numbers to only cache a particular page etc.
-            return string.Empty;
-            */
         }
 
         protected override object GetCacheValue(ErrorOr<GetByIdResponse> request)
@@ -54,10 +48,6 @@ namespace Product.Application.Product.Queries.GetById
     }
 
 
-
-    /// <summary>
-    /// Örnekleme için oluþturulmuþtur.
-    /// </summary>
     public class InsertCommandGetByIdQueryCacheInvalidator : CacheInvalidator<InsertCommand, GetByIdQuery, ErrorOr<GetByIdResponse>>
     {
         public InsertCommandGetByIdQueryCacheInvalidator(ICache<GetByIdQuery, ErrorOr<GetByIdResponse>> cache) : base(cache)
